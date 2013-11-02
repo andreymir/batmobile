@@ -21,15 +21,10 @@ void drive(byte left, byte right) {
    shieldbot.drive(left,right); 
 }
 
-void lineFollowingMode() {
+void driveInLineFollowingMode() {
   shieldbot.setMaxSpeed(50,50);//255 is max, if one motor is faster than another, adjust values
   
-  //Read all the sensors 
-  S1 = shieldbot.readS1();
-  S2 = shieldbot.readS2();
-  S3 = shieldbot.readS3();
-  S4 = shieldbot.readS4();
-  S5 = shieldbot.readS5();
+  readLineSensors();
   
   if(S1 == HIGH && S5 == HIGH){	//if the two outer IR line sensors see background, go forward
     shieldbot.forward(); 
@@ -44,4 +39,29 @@ void lineFollowingMode() {
     delay(100);
   }else	//otherwise just go forward
   shieldbot.forward();
+}
+
+boolean protectedState;
+
+void initProtectedMode() {
+  protectedState = false;
+}
+
+void driveInProtectedMode(byte left, byte right) {
+  readLineSensors();
+  
+  if (!protectedState) {
+    drive(left, right);
+  }
+  
+  
+}
+
+void readLineSensors(){
+   //Read all the sensors 
+  S1 = shieldbot.readS1();
+  S2 = shieldbot.readS2();
+  S3 = shieldbot.readS3();
+  S4 = shieldbot.readS4();
+  S5 = shieldbot.readS5(); 
 }
