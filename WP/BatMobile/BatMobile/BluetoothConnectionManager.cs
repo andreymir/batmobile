@@ -50,8 +50,7 @@ namespace BluetoothConnectionManager
         public void Initialize()
         {
             socket = new StreamSocket();
-            dataReadWorker = new BackgroundWorker();
-            dataReadWorker.WorkerSupportsCancellation = true;
+            dataReadWorker = new BackgroundWorker {WorkerSupportsCancellation = true};
             dataReadWorker.DoWork += new DoWorkEventHandler(ReceiveMessages);
         }
 
@@ -70,10 +69,6 @@ namespace BluetoothConnectionManager
             }
         }
 
-        /// <summary>
-        /// Connect to the given host device.
-        /// </summary>
-        /// <param name="deviceHostName">The host device name.</param>
         public async void Connect(HostName deviceHostName)
         {
             if (socket != null)
@@ -137,6 +132,19 @@ namespace BluetoothConnectionManager
                 await dataWriter.StoreAsync();
             }
             return sentCommandSize;
+        }
+
+        public async void SendCommand(string command, byte left, byte right)
+        {
+            if (dataWriter != null)
+            {
+                uint commandSize = dataWriter.MeasureString(command) + 2;
+                dataWriter.WriteByte((byte)commandSize);
+                dataWriter.WriteString(command);
+                dataWriter.WriteByte(left);
+                dataWriter.WriteByte(right);
+                await dataWriter.StoreAsync();
+            }
         }
     }
 }
