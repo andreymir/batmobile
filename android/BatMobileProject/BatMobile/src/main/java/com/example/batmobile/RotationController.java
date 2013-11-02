@@ -16,9 +16,13 @@ public class RotationController implements SensorEventListener {
     private final Activity mActivity;
     private IRotaionListener mRotaionListener;
 
-    private final float MAX_PITCH_VALUE = 0;
-    private final float MIN_PITCH_VALUE = -180;
-    private final float AVERAGE_PITCH_VALUE = (MAX_PITCH_VALUE - MIN_PITCH_VALUE) / 2;
+    public static final float MAX_PITCH_VALUE = 0;
+    public static float MIN_PITCH_VALUE = -180;
+    public static float AVG_PITCH_VALUE = (MAX_PITCH_VALUE - MIN_PITCH_VALUE) / 2;
+
+    public static final float MAX_ROLL_VALUE = 90;
+    public static float MIN_ROLL_VALUE = -90;
+    public static float AVG_ROLL_VALUE = 0;
 
     public RotationController(Activity activity){
         mActivity = activity;
@@ -55,10 +59,4 @@ public class RotationController implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
-
-    interface IRotaionListener
-    {
-        public void RotationChanged(float x, float y, float z);
-    }
-
 }

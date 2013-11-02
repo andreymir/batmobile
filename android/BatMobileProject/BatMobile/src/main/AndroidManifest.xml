@@ -38,15 +38,16 @@
         <activity
             android:name="com.example.batmobile.BluetoothActivity"
             android:label="@string/title_activity_bluetooth" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.example.batmobile.GyroModeActivity"
             android:label="@string/title_activity_gyro_mode"
             android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

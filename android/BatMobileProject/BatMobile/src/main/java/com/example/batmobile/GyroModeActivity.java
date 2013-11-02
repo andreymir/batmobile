@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.batmobile.arduino.BluetoothController;
+import com.example.batmobile.arduino.ShieldBotManager;
 
 import java.util.List;
 
@@ -57,12 +61,13 @@ public class GyroModeActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment implements RotationController.IRotaionListener  {
+    public static class PlaceholderFragment extends Fragment implements IRotaionListener  {
         private TextView xAxis, yAxis, zAxis;
         private TextView power;
         private boolean isLestining = false;
 
         private RotationController mRotationController;
+        private BluetoothController mBluetoothController;
 
         public PlaceholderFragment() {
 
@@ -81,7 +86,16 @@ public class GyroModeActivity extends Activity {
 
             mRotationController = new RotationController(getActivity());
 
-            mRotationController.addListener(this);
+            mBluetoothController = new BluetoothController(getActivity());
+
+            ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
+
+            mRotationController.addListener(manager);
+
+            if (!mBluetoothController.init())
+                finishDialogNoBluetooth();
+
+            mBluetoothController.connectToFirstBoundedDevice();
 
             return rootView;
         }
@@ -108,6 +122,21 @@ public class GyroModeActivity extends Activity {
             }
         }
 
+        public void finishDialogNoBluetooth() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.alert_dialog_no_bt)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setTitle(R.string.app_name)
+                    .setCancelable( false )
+                    .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            getActivity().finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
     }
 
     public void onPowerButtonClick(View v){
@@ -115,8 +144,8 @@ public class GyroModeActivity extends Activity {
         PlaceholderFragment fragment = (PlaceholderFragment)getFragmentManager().findFragmentById(R.id.container);
 
         fragment.powerButtonClick();
-
-
     }
+
+
 
 }

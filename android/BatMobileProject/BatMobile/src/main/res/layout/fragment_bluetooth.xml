@@ -23,4 +23,40 @@
         android:layout_alignParentLeft="true"
         android:onClick="onConnectButtonClick" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drive"
+        android:id="@+id/driveButton"
+        android:layout_below="@+id/connectButton"
+        android:layout_alignParentLeft="true"
+        android:onClick="onDriveButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Idle mode"
+        android:id="@+id/idleModeButton"
+        android:layout_below="@+id/driveButton"
+        android:layout_alignParentLeft="true"
+        android:onClick="onIdleModeButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manual mode"
+        android:id="@+id/manualModeButton"
+        android:onClick="onManualModeButtonClick"
+        android:layout_below="@+id/idleModeButton"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Follow line mode"
+        android:id="@+id/followLineModeButton"
+        android:onClick="onFollowLineModeButtonClick"
+        android:layout_below="@+id/manualModeButton"
+        android:layout_alignParentLeft="true" />
+
 </RelativeLayout>

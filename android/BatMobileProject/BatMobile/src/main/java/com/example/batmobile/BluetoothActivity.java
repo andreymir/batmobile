@@ -21,6 +21,9 @@ import android.os.Build;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
 public class BluetoothActivity extends Activity {
 
     // Intent request codes
@@ -119,6 +122,39 @@ public class BluetoothActivity extends Activity {
 
         BluetoothDevice device =  mBluetoothAdapter.getBondedDevices().iterator().next();
         mSerialService.connect(device);
+    }
+
+    public void onDriveButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onDriveButtonClick +");
+
+        char[] chars = {'\u0003', 'd', '\u0078', '\u0070'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        command[2] = -100;
+        mSerialService.write(command);
+    }
+
+    public void onIdleModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onIdleModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'i'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onManualModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onManualModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'm'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onFollowLineModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onFollowLineModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'f'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
     }
 
     @Override
