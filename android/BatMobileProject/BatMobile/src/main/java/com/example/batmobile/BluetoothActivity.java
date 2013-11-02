@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,8 +128,10 @@ public class BluetoothActivity extends Activity {
     public void onDriveButtonClick(View v) {
         Log.e(LOG_TAG, "+ onDriveButtonClick +");
 
-        char[] chars = {'\u0003', 'd', '\u0032', '\u0035'};
+        char[] chars = {'\u0003', 'd', '\u0000', '\u0000'};
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        command[2] = (byte)(((SeekBar)findViewById(R.id.leftWheelBar)).getProgress() - 127);
+        command[3] = (byte)(((SeekBar)findViewById(R.id.rightWheelBar)).getProgress() - 127);
         mSerialService.write(command);
     }
 
@@ -160,6 +163,14 @@ public class BluetoothActivity extends Activity {
         Log.e(LOG_TAG, "+ onFollowLineModeButtonClick +");
 
         char[] chars = {'\u0002', 'm', 'f'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onParktronicModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onParktronicModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'p'};
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
         mSerialService.write(command);
     }
