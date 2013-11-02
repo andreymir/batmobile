@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class GyroModeActivity extends Activity {
-    TextView xAxis, yAxis, zAxis;
+    TextView xAxis, yAxis, zAxis, powerState;
     Button power;
 
     @Override
@@ -31,6 +31,7 @@ public class GyroModeActivity extends Activity {
         xAxis = (TextView)findViewById(R.id.textViewXAxis);
         yAxis = (TextView)findViewById(R.id.textViewYAxis);
         zAxis = (TextView)findViewById(R.id.textViewZAxis);
+        powerState = (TextView)findViewById(R.id.textViewPowerState);
         power = (Button)findViewById(R.id.textViewPowerState);
     }
 
