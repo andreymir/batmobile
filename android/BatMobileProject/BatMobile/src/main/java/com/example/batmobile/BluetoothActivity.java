@@ -133,6 +133,30 @@ public class BluetoothActivity extends Activity {
         mSerialService.write(command);
     }
 
+    public void onIdleModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onIdleModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'i'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onManualModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onManualModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'm'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onFollowLineModeButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onFollowLineModeButtonClick +");
+
+        char[] chars = {'\u0002', 'm', 'f'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
     @Override
     public synchronized void onResume() {
         super.onResume();

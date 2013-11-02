@@ -1,12 +1,21 @@
 #include <Shieldbot.h>
 
+enum Mode {
+  Idle,
+  Manual,
+  FollowLine
+};
+
 Shieldbot shieldbot = Shieldbot();
 int S1,S2,S3,S4,S5;	//values to store state of sensors
+Mode mode;
 
 void setup() {
-  //Serial.begin(9600);
-  //shieldbot.setMaxSpeed(255);
+  Serial.begin(9600);
+
   setupBluetooth();
+  
+  mode = Manual;
 }
 
 void loop() {
@@ -14,6 +23,7 @@ void loop() {
   
   if (command != NULL) {
     processCommand(command);
+    delete[] command;
   }
 }
 
