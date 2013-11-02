@@ -62,9 +62,32 @@ void driveInProtectedMode(byte left, byte right) {
   
   if (!protectedState) {
     drive(left, right);
+    
+    if (
+      (S3 == HIGH && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW) ||
+      (S3 == LOW && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH) ||
+      (S1 == HIGH && S2 == LOW && S3 == LOW && S4 == LOW && S5 == HIGH) ||
+      (S1 == LOW && S2 == HIGH && S3 == HIGH && S4 == HIGH && S5 == LOW) ||
+      (S3 == HIGH && S4 == HIGH && S1 == LOW && S2 == LOW && S5 == LOW) ||
+      (S3 == LOW && S4 == LOW && S1 == HIGH && S2 == HIGH && S5 == HIGH) ||
+      (S3 == HIGH && S2 == HIGH && S1 == LOW && S4 == LOW && S5 == LOW) ||
+      (S3 == LOW && S2 == LOW && S1 == HIGH && S4 == HIGH && S5 == HIGH) ||
+      (S3 == HIGH && S2 == HIGH && S1 == LOW && S4 == HIGH && S5 == HIGH) ||
+      (S3 == HIGH && S2 == HIGH && S1 == HIGH && S4 == HIGH && S5 == LOW) ||
+      (S1 == LOW && S2 == LOW && S3 == LOW && S4 == HIGH && S5 == HIGH) ||
+      (S1 == HIGH && S2 == HIGH && S3 == HIGH && S4 == LOW && S5 == LOW) ||
+      (S3 == HIGH && ((S1 == LOW && S2 == LOW) || (S4 == LOW && S5 == LOW))) ||
+      (S3 == LOW && ((S1 == HIGH && S2 == HIGH) || (S4 == HIGH && S5 == HIGH)))
+     ) {
+     shieldbot.backward();
+     delay(50);
+     shieldbot.stop();
+     protectedState = true;
+   }
+  } 
+  else if (left <= 0 || right <= 0) {
+    protectedState = false;
   }
-  
-  
 }
 
 void readLineSensors(){
