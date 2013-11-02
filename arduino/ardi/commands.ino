@@ -39,9 +39,11 @@ void callDrive(char left, char right) {
   Serial.print(", ");
   Serial.println((int)right);
   
-  if (mode != Manual && mode != Parktronic) {
+  if (mode != Manual && mode != Parktronic && left != 0 && right != 0) {
     return;
   }
+  
+  drive(left, right);
 }
 
 void callChangeMode(char m) {
@@ -50,13 +52,15 @@ void callChangeMode(char m) {
   
   switch (m) {
     case 'i':
-      mode = Idle;
+      setupBot(Idle);
       break;
     case 'm':
-      mode = Manual;
+      setupBot(Manual);
       break;
     case 'f':
-      mode = FollowLine;
+      setupBot(FollowLine);
       break;
+    case 'p':
+      setupBot(Parktronic);
   }
 }

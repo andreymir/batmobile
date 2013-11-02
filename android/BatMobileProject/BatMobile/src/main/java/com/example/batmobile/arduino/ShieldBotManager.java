@@ -14,7 +14,7 @@ public class ShieldBotManager implements IRotaionListener {
 
     @Override
     public void RotationChanged(float x, float y, float z) {
-        ControlSignal signal = ShieldBotUtility.CreateControlSignalFromVector(y, z);
+        ControlSignal signal = ShieldBotUtility.CreateControlSignalFromVector(z, y);
         mBluetoothController.sendMessage(signal.toBytes());
     }
 }

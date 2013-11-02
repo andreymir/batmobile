@@ -59,4 +59,49 @@
         android:layout_below="@+id/manualModeButton"
         android:layout_alignParentLeft="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parktronic mode"
+        android:id="@+id/parktronicModeButton"
+        android:onClick="onParktronicModeButtonClick"
+        android:layout_below="@+id/followLineModeButton"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beep"
+        android:id="@+id/beepButton"
+        android:onClick="onBeepButtonClick"
+        android:layout_below="@+id/parktronicModeButton"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/stopButton"
+        android:onClick="onStopButtonClick"
+        android:layout_below="@+id/beepButton"
+        android:layout_alignParentLeft="true" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/leftWheelBar"
+        android:layout_below="@+id/stopButton"
+        android:layout_alignParentLeft="true"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rightWheelBar"
+        android:layout_below="@+id/leftWheelBar"
+        android:layout_alignParentLeft="true"
+        android:max="255"
+        android:progress="127" />
+
 </RelativeLayout>

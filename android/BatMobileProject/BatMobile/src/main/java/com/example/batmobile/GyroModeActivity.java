@@ -91,6 +91,7 @@ public class GyroModeActivity extends Activity {
             ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
 
             mRotationController.addListener(manager);
+            //mRotationController.addListener(this);
 
             if (!mBluetoothController.init())
                 finishDialogNoBluetooth();
