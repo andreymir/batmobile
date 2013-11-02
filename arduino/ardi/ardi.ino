@@ -1,5 +1,10 @@
 #include <Shieldbot.h>
 
+#define LEFT_GREEN_LED 2
+#define RIGHT_GREEN_LED 1
+#define RIGHT_RED_LED 0
+#define LEFT_RED_LED 3
+
 enum Mode {
   Idle,
   Manual,
@@ -16,6 +21,11 @@ void setup() {
   setupBluetooth();
   
   mode = Manual;
+
+  pinMode(LEFT_GREEN_LED, OUTPUT); 
+  pinMode(RIGHT_GREEN_LED, OUTPUT); 
+  pinMode(RIGHT_RED_LED, OUTPUT); 
+  pinMode(LEFT_RED_LED, OUTPUT); 
 }
 
 void loop() {
@@ -28,7 +38,9 @@ void loop() {
 }
 
 void drive(byte left, byte right) {
-   shieldbot.drive(left,right); 
+   shieldbot.drive(left,right);
+   
+   setLEDs(left, right);
 }
 
 void driveInLineFollowingMode() {
@@ -97,4 +109,22 @@ void readLineSensors(){
   S3 = shieldbot.readS3();
   S4 = shieldbot.readS4();
   S5 = shieldbot.readS5(); 
+}
+
+void setLEDs(byte left, byte right) {
+  if (left > 0) {
+    digitalWrite(LEFT_GREEN_LED, HIGH);
+    digitalWrite(LEFT_RED_LED, LOW);
+  } else {
+    digitalWrite(LEFT_GREEN_LED, LOW);
+    digitalWrite(LEFT_RED_LED, HIGH);
+  }
+  
+  if (right > 0) {
+    digitalWrite(RIGHT_GREEN_LED, HIGH);
+    digitalWrite(RIGHT_RED_LED, LOW);
+  } else {
+    digitalWrite(RIGHT_GREEN_LED, LOW);
+    digitalWrite(RIGHT_RED_LED, HIGH);
+  }
 }
