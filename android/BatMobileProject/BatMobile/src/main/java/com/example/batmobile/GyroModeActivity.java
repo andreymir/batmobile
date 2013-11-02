@@ -13,9 +13,11 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GyroModeActivity extends Activity {
+public class GyroModeActivity extends Activity implements RotationController.IRotaionListener {
     TextView xAxis, yAxis, zAxis;
     Button power;
+
+    RotationController mRotationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,13 @@ public class GyroModeActivity extends Activity {
         yAxis = (TextView)findViewById(R.id.textViewYAxis);
         zAxis = (TextView)findViewById(R.id.textViewZAxis);
         power = (Button)findViewById(R.id.textViewPowerState);
+
+        mRotationController = new RotationController(this);
+
+        mRotationController.addListener(this);
+
+        mRotationController.regiseter();
+
     }
 
 
@@ -53,6 +62,13 @@ public class GyroModeActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void RotationChanged(float x, float y, float z) {
+        xAxis.setText(Float.toString(x));
+        yAxis.setText(Float.toString(y));
+        zAxis.setText(Float.toString(z));
     }
 
     /**
