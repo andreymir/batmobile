@@ -27,6 +27,9 @@ void processCommand(char* command) {
     case 'm':
       callChangeMode(command[1]);
       break;
+    case 'b':
+      march();
+      break;
   }
 }
 

@@ -28,6 +28,8 @@ void setup() {
   pinMode(RIGHT_GREEN_LED, OUTPUT); 
   pinMode(RIGHT_RED_LED, OUTPUT); 
   pinMode(LEFT_RED_LED, OUTPUT); 
+  
+  setupBip();
 }
 
 void loop() {
