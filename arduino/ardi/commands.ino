@@ -36,7 +36,7 @@ void callDrive(char left, char right) {
   Serial.print(", ");
   Serial.println((int)right);
   
-  if (mode != Manual) {
+  if (mode != Manual && mode != Parktronic) {
     return;
   }
 }

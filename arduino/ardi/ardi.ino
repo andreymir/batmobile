@@ -3,11 +3,13 @@
 enum Mode {
   Idle,
   Manual,
-  FollowLine
+  FollowLine,
+  Parktronic
 };
 
 Shieldbot shieldbot = Shieldbot();
 int S1,S2,S3,S4,S5;	//values to store state of sensors
+double distance;
 Mode mode;
 
 void setup() {
@@ -19,6 +21,8 @@ void setup() {
 }
 
 void loop() {
+  updateSensors();
+  
   char* command = readCommand();
   
   if (command != NULL) {
