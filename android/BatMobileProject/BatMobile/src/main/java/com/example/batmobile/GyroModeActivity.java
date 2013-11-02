@@ -1,23 +1,24 @@
 package com.example.batmobile;
 
 import android.app.Activity;
-import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.Button;
 import android.widget.TextView;
 
-public class GyroModeActivity extends Activity implements RotationController.IRotaionListener {
-    TextView xAxis, yAxis, zAxis;
-    Button power;
+import java.util.List;
 
-    RotationController mRotationController;
+public class GyroModeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +30,6 @@ public class GyroModeActivity extends Activity implements RotationController.IRo
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-        xAxis = (TextView)findViewById(R.id.textViewXAxis);
-        yAxis = (TextView)findViewById(R.id.textViewYAxis);
-        zAxis = (TextView)findViewById(R.id.textViewZAxis);
-        power = (Button)findViewById(R.id.textViewPowerState);
-
-        mRotationController = new RotationController(this);
-
-        mRotationController.addListener(this);
-
-        mRotationController.regiseter();
-
     }
 
 
@@ -64,26 +53,70 @@ public class GyroModeActivity extends Activity implements RotationController.IRo
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void RotationChanged(float x, float y, float z) {
-        xAxis.setText(Float.toString(x));
-        yAxis.setText(Float.toString(y));
-        zAxis.setText(Float.toString(z));
-    }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements RotationController.IRotaionListener  {
+        private TextView xAxis, yAxis, zAxis;
+        private TextView power;
+        private boolean isLestining = false;
+
+        private RotationController mRotationController;
 
         public PlaceholderFragment() {
+
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.gyro_fragment_main, container, false);
+
+
+            xAxis = (TextView)rootView.findViewById(R.id.textViewXAxis);
+            yAxis = (TextView)rootView.findViewById(R.id.textViewYAxis);
+            zAxis = (TextView)rootView.findViewById(R.id.textViewZAxis);
+            power = (TextView)rootView.findViewById(R.id.textViewPowerState);
+
+            mRotationController = new RotationController(getActivity());
+
+            mRotationController.addListener(this);
+
             return rootView;
         }
+
+
+
+        @Override
+        public void RotationChanged(float x, float y, float z) {
+            xAxis.setText(Float.toString(x));
+            yAxis.setText(Float.toString(y));
+            zAxis.setText(Float.toString(z));
+        }
+
+        public void powerButtonClick(){
+            power.setText("POWER!");
+
+            if (!isLestining){
+                mRotationController.regiseter();
+                isLestining = true;
+            }
+            else{
+                mRotationController.unregister();
+                isLestining = false;
+            }
+        }
+
     }
+
+    public void onPowerButtonClick(View v){
+
+        PlaceholderFragment fragment = (PlaceholderFragment)getFragmentManager().findFragmentById(R.id.container);
+
+        fragment.powerButtonClick();
+
+
+    }
+
 }
