@@ -127,9 +127,16 @@ public class BluetoothActivity extends Activity {
     public void onDriveButtonClick(View v) {
         Log.e(LOG_TAG, "+ onDriveButtonClick +");
 
-        char[] chars = {'\u0003', 'd', '\u0078', '\u0070'};
+        char[] chars = {'\u0003', 'd', '\u0032', '\u0035'};
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
-        command[2] = -100;
+        mSerialService.write(command);
+    }
+
+    public void onStopButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onStopButtonClick +");
+
+        char[] chars = {'\u0003', 'd', '\u0000', '\u0000'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
         mSerialService.write(command);
     }
 
@@ -153,6 +160,14 @@ public class BluetoothActivity extends Activity {
         Log.e(LOG_TAG, "+ onFollowLineModeButtonClick +");
 
         char[] chars = {'\u0002', 'm', 'f'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void onBeepButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onBeepButtonClick +");
+
+        char[] chars = {'\u0001', 'b'};
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
         mSerialService.write(command);
     }

@@ -1,4 +1,4 @@
-int speakerPin = 9;
+int speakerPin = 13;
 
 #define c 261
 #define d 294

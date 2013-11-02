@@ -43,10 +43,10 @@ void loop() {
   }
 }
 
-void drive(byte left, byte right) {
+void drive(char left, char right) {
    shieldbot.drive(left,right);
    
-   setLEDs(left, right);
+   //setLEDs(left, right);
 }
 
 void driveInLineFollowingMode() {

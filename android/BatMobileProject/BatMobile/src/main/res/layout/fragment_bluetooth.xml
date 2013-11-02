@@ -59,4 +59,22 @@
         android:layout_below="@+id/manualModeButton"
         android:layout_alignParentLeft="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beep"
+        android:id="@+id/beepButton"
+        android:onClick="onBeepButtonClick"
+        android:layout_below="@+id/followLineModeButton"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/stopButton"
+        android:onClick="onStopButtonClick"
+        android:layout_below="@+id/beepButton"
+        android:layout_alignParentLeft="true" />
+
 </RelativeLayout>
