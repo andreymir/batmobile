@@ -1,0 +1,68 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GyroModeActivity"
+    tools:ignore="MergeRootFrame">
+
+    <Button
+        android:layout_width="222dp"
+        android:layout_height="167dp"
+        android:text="POWER"
+        android:id="@+id/PowerButton"
+        android:layout_gravity="center|right"
+        android:layout_marginTop="-2dp"
+        android:longClickable="true"
+        android:layout_marginRight="30dp"
+        android:onClick="OnPowerButtonLongClick"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left|bottom"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="POWER: "
+            android:id="@+id/textViewPowerState"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="X Axis: "
+            android:id="@+id/textViewXAxis"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Y Axis: "
+            android:id="@+id/textViewYAxis"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Z Axis: "
+            android:id="@+id/textViewZAxis"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+    </FrameLayout>
