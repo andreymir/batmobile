@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Windows;
 using Windows.Networking.Proximity;
 using Windows.Phone.Media.Capture;
@@ -18,6 +19,7 @@ namespace BatMobile
 
         public void Initialize()
         {
+            _connectionManager.Initialize();
             AppToDevice();
         }
 
@@ -27,8 +29,11 @@ namespace BatMobile
             if (queue.Count < 4) return;
 
             var prevPoint = queue.Dequeue();
-            var currentPoint = GetNextPoint(queue, prevPoint);
-            var nextPoit = GetNextPoint(queue, currentPoint);
+            var currentPoint = GetNextPoint(queue, prevPoint).Item1;
+            var nextTuple = GetNextPoint(queue, currentPoint);
+
+            var nextPoit = nextTuple.Item1;
+            var delay = nextTuple.Item2;
 
 
             while (queue.Count > 0)
@@ -41,18 +46,20 @@ namespace BatMobile
                 var angel = Angle(ab, bc, ca);
                 var isRight = IsRight(prevPoint, currentPoint, nextPoit);
 
-                Process(angel, isRight);
+                Process(angel, isRight, delay);
 
                 prevPoint = currentPoint;
                 currentPoint = nextPoit;
-                nextPoit = GetNextPoint(queue, nextPoit);
+                nextTuple = GetNextPoint(queue, nextPoit);
+                nextPoit = nextTuple.Item1;
+                delay = nextTuple.Item2;
             } 
 
 
             Stop();
         }
 
-        private static Point GetNextPoint(Queue<Point> queue, Point prevPoint)
+        private static Tuple<Point, int> GetNextPoint(Queue<Point> queue, Point prevPoint)
         {
             var nextPoit = queue.Dequeue();
             while (queue.Count > 0 && Math.Abs(prevPoint.X - nextPoit.X) < 10 && Math.Abs(prevPoint.Y - nextPoit.Y) < 10)
@@ -76,7 +83,7 @@ namespace BatMobile
             return Math.Acos((ab * ab + bc * bc - ac * ac) / (2 * bc * ab)) * 180 / Math.PI;
         }
 
-        private void Process(double angel, bool isRight)
+        private void Process(double angel, bool isRight, int delay)
         {
             if (angel > 170) //forvard
             {
@@ -84,30 +91,36 @@ namespace BatMobile
             }
             else if (angel > 90) // 
             {
-                if (isRight)
+                if (!isRight)
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, 0);
+                    _connectionManager.SendCommand(command, maxSpeed, 30);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, 0, maxSpeed);
+                    _connectionManager.SendCommand(command, 30, maxSpeed);
                 }
+
+                Thread.Sleep(100);
             }
-            else if (angel > 10) // fast
+            else if (angel > 0) // fast
             {
-                if (isRight)
+                if (!isRight)
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, 140);
+                    _connectionManager.SendCommand(command, maxSpeed, 250);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, 140, maxSpeed);
+                    _connectionManager.SendCommand(command, 250, maxSpeed);
                 }
+
+                Thread.Sleep(100);
             }
-            else // back
-            {
-                _connectionManager.SendCommand(command, 140, 140);
-            }
+
+            Thread.Sleep(10 * delay);
+            //else // back
+            //{
+            //    _connectionManager.SendCommand(command, 140, 140);
+            //}
         }
 
         private void Start()
@@ -137,8 +150,8 @@ namespace BatMobile
                 }
                 else
                 {
-                    Debug.WriteLine(pairedDevices[0].HostName);
-                    //_connectionManager.Connect(pairedDevices[0].HostName);
+                    //Debug.WriteLine(pairedDevices[0].HostName);
+                    _connectionManager.Connect(pairedDevices[0].HostName);
                 }
             }
             catch (Exception e)
