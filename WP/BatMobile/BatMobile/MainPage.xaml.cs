@@ -1,41 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using BatMobile.Resources;
+﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace BatMobile
 {
-    public partial class MainPage : PhoneApplicationPage
+    public partial class MainPage
     {
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            Touch.FrameReported += Touch_FrameReported;
         }
 
-        // Sample code for building a localized ApplicationBar
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // Set the page's ApplicationBar to a new instance of ApplicationBar.
-        //    ApplicationBar = new ApplicationBar();
+        private const int mainPoint = 0;
+        double preXArray;
+        double preYArray;
 
-        //    // Create a new button and set the text value to the localized string from AppResources.
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
+        void Touch_FrameReported(object sender, TouchFrameEventArgs e)
+        {
+            TouchPointCollection pointCollection = e.GetTouchPoints(drawCanvas);
 
-        //    // Create a new menu item with the localized string from AppResources.
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
+            if (pointCollection[mainPoint].Action == TouchAction.Down)
+            {
+                drawCanvas.Children.Clear();
+                preXArray = pointCollection[mainPoint].Position.X;
+                preYArray = pointCollection[mainPoint].Position.Y;
+            }
+            if (pointCollection[mainPoint].Action == TouchAction.Move)
+            {
+                var line = new Line
+                {
+                    X1 = preXArray,
+                    Y1 = preYArray,
+                    X2 = pointCollection[mainPoint].Position.X,
+                    Y2 = pointCollection[mainPoint].Position.Y,
+                    Stroke = new SolidColorBrush(Colors.Black),
+                    Fill = new SolidColorBrush(Colors.Black)
+                };
+
+                drawCanvas.Children.Add(line);
+
+                preXArray = pointCollection[mainPoint].Position.X;
+                preYArray = pointCollection[mainPoint].Position.Y;
+            }
+        }
     }
 }
