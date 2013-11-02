@@ -14,11 +14,11 @@ void updateSensors() {
     distance = d;
   }
   
-  //S1 = shieldbot.readS1();
-  //S2 = shieldbot.readS2();
-  //S3 = shieldbot.readS3();
-  //S4 = shieldbot.readS4();
-  //S5 = shieldbot.readS5();
+  S1 = shieldbot.readS1();
+  S2 = shieldbot.readS2();
+  S3 = shieldbot.readS3();
+  S4 = shieldbot.readS4();
+  S5 = shieldbot.readS5();
 }
 
 double getDistance() {

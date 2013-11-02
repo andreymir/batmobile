@@ -52,13 +52,15 @@ void callChangeMode(char m) {
   
   switch (m) {
     case 'i':
-      mode = Idle;
+      setupBot(Idle);
       break;
     case 'm':
-      mode = Manual;
+      setupBot(Manual);
       break;
     case 'f':
-      mode = FollowLine;
+      setupBot(FollowLine);
       break;
+    case 'p':
+      setupBot(Parktronic);
   }
 }
