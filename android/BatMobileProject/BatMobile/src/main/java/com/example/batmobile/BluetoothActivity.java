@@ -21,6 +21,9 @@ import android.os.Build;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
 public class BluetoothActivity extends Activity {
 
     // Intent request codes
@@ -119,6 +122,15 @@ public class BluetoothActivity extends Activity {
 
         BluetoothDevice device =  mBluetoothAdapter.getBondedDevices().iterator().next();
         mSerialService.connect(device);
+    }
+
+    public void onDriveButtonClick(View v) {
+        Log.e(LOG_TAG, "+ onDriveButtonClick +");
+
+        char[] chars = {'\u0003', 'd', '\u0078', '\u0070'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        command[2] = -100;
+        mSerialService.write(command);
     }
 
     @Override

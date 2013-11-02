@@ -23,4 +23,13 @@
         android:layout_alignParentLeft="true"
         android:onClick="onConnectButtonClick" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drive"
+        android:id="@+id/driveButton"
+        android:layout_below="@+id/connectButton"
+        android:layout_alignParentLeft="true"
+        android:onClick="onDriveButtonClick" />
+
 </RelativeLayout>
