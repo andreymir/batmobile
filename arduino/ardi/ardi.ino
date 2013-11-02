@@ -9,7 +9,11 @@ void setup() {
 }
 
 void loop() {
-  loopBluetooth();
+  char* command = readCommand();
+  
+  if (command != NULL) {
+    processCommand(command);
+  }
 }
 
 void drive(byte left, byte right) {
