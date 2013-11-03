@@ -28,7 +28,7 @@ public class OptionsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_main);
 
-        manualRadioButton = (RadioButton)findViewById(R.id.manualModeButton);
+        manualRadioButton = (RadioButton)findViewById(R.id.radioButtonManual);
         protectedRadioButton = (RadioButton)findViewById(R.id.radioButtonProtected);
         followLineRadioButton = (RadioButton)findViewById(R.id.radioButtonFollowLine);
         RadioGroup rg = (RadioGroup)findViewById(R.id.rg);
@@ -101,13 +101,13 @@ public class OptionsActivity extends Activity {
 
         switch(rbid)
         {
-            case R.id.manualModeButton:
+            case R.id.radioButtonManual:
                 Options.getInstance().mode = Mode.Manual;
                 break;
             case R.id.radioButtonProtected:
                 Options.getInstance().mode = Mode.Protected;
                 break;
-            case R.id.followLineModeButton:
+            case R.id.radioButtonFollowLine:
                 Options.getInstance().mode = Mode.FollowLine;
                 break;
         }
