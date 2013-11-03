@@ -12,5 +12,6 @@
     <string name="alert_dialog_ok">Ok</string>
     <string name="alert_dialog_turn_on_bt">This application needs the Bluetooth. Do you want turn on?</string>
     <string name="title_activity_gyro_mode">GyroModeActivity</string>
+    <string name="title_activity_options">OptionsActivity</string>
 
 </resources>
