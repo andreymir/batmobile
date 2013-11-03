@@ -10,7 +10,7 @@
         android:layout_width="550dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Options"
+        android:text="Mode"
         android:id="@+id/textView"
         android:layout_gravity="left|top"
         android:layout_marginTop="20dp"
@@ -30,7 +30,9 @@
         <RadioGroup
             android:id="@+id/rg"
             android:layout_width="500dp"
-            android:layout_height="300dp">
+            android:layout_height="300dp"
+            android:baselineAligned="false"
+            android:layout_marginLeft="24dp">
 
 
             <RadioButton
@@ -38,21 +40,21 @@
                 android:layout_height="wrap_content"
                 android:text="Manual"
                 android:id="@+id/radioButtonManual"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center|left"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Protected"
                 android:id="@+id/radioButtonProtected"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center|left" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Follow Line"
                 android:id="@+id/radioButtonFollowLine"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center|left" />
         </RadioGroup>
 
         <Button
@@ -64,7 +66,8 @@
             android:layout_marginRight="25dp"
             android:background="#ffcc20"
             android:textStyle="bold"
-            android:onClick="saveButtonClick"/>
+            android:onClick="saveButtonClick"
+            android:layout_marginTop="-31dp" />
 
         <Button
             android:layout_width="170dp"

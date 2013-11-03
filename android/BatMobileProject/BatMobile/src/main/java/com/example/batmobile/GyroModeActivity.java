@@ -73,8 +73,6 @@ public class GyroModeActivity extends Activity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment implements IRotaionListener  {
-        private TextView xAxis, yAxis, zAxis;
-        private TextView power;
         private boolean isLestining = false;
 
         private BluetoothController mBluetoothController;
@@ -91,11 +89,6 @@ public class GyroModeActivity extends Activity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.gyro_fragment_main, container, false);
 
-
-            xAxis = (TextView)rootView.findViewById(R.id.textViewXAxis);
-            yAxis = (TextView)rootView.findViewById(R.id.textViewYAxis);
-            zAxis = (TextView)rootView.findViewById(R.id.textViewZAxis);
-            power = (TextView)rootView.findViewById(R.id.textViewPowerState);
 
             mRotationController = new RotationController(getActivity());
 
@@ -117,13 +110,17 @@ public class GyroModeActivity extends Activity {
 
         @Override
         public void RotationChanged(float x, float y, float z) {
-            xAxis.setText(Float.toString(x));
-            yAxis.setText(Float.toString(y));
-            zAxis.setText(Float.toString(z));
+            //xAxis.setText(Float.toString(x));
+            //yAxis.setText(Float.toString(y));
+            //zAxis.setText(Float.toString(z));
+        }
+
+        public void beepButtonClick() {
+            mBluetoothController.playBeep();
         }
 
         public void powerButtonClick(){
-            power.setText("POWER!");
+            //power.setText("POWER!");
 
             if (!isLestining){
                 mRotationController.regiseter();
@@ -178,6 +175,13 @@ public class GyroModeActivity extends Activity {
         PlaceholderFragment fragment = (PlaceholderFragment)getFragmentManager().findFragmentById(R.id.container);
 
         fragment.powerButtonClick();
+    }
+
+    public void onBeepButtonClick(View v){
+
+        PlaceholderFragment fragment = (PlaceholderFragment)getFragmentManager().findFragmentById(R.id.container);
+
+        fragment.beepButtonClick();
     }
 
 
