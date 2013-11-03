@@ -6,14 +6,13 @@
 
 const unsigned long sonarDelay = 1000;
 
-//NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and maximum distance.
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and maximum distance.
 
 void updateSensors() {
-  /*
   double d = getDistance();
   if (d > 0) {
     distance = d;
-  }*/
+  }
   
   S1 = shieldbot.readS1();
   S2 = shieldbot.readS2();
@@ -21,7 +20,7 @@ void updateSensors() {
   S4 = shieldbot.readS4();
   S5 = shieldbot.readS5();
 }
-/*
+
 double getDistance() {
   static unsigned long time = 0;
   if (millis() - time < sonarDelay) {
@@ -35,4 +34,4 @@ double getDistance() {
   Serial.println(uS / US_ROUNDTRIP_CM);
   
   return uS / US_ROUNDTRIP_CM;
-}*/
+}
