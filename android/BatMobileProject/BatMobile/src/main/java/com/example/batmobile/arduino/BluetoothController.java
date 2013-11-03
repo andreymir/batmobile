@@ -59,7 +59,7 @@ public class BluetoothController {
     public static final String TOAST = "toast";
 
     private static BluetoothSerialService mSerialService = null;
-    private BluetoothAdapter mBluetoothAdapter = null;
+    private static BluetoothAdapter mBluetoothAdapter = null;
 
     private boolean mEnablingBT;
 
@@ -69,13 +69,14 @@ public class BluetoothController {
     }
 
     public boolean init(){
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null)
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBluetoothAdapter == null) {
             return false;
         }
-
-        mSerialService = new BluetoothSerialService(mContext, mHandlerBT);
+        if (mSerialService == null)
+            mSerialService = new BluetoothSerialService(mContext, mHandlerBT);
         return true;
     }
 

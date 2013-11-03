@@ -35,13 +35,15 @@ public class GyroModeActivity extends Activity {
 
         mBluetoothController = new BluetoothController(this);
 
+        if (mBluetoothController.init()){
+            Toast.makeText(this, "Couldn't find device", 1000);
+        }
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment(mBluetoothController))
                     .commit();
         }
-
-
     }
 
 
@@ -91,13 +93,7 @@ public class GyroModeActivity extends Activity {
             ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
 
             mRotationController.addListener(manager);
-            //mRotationController.addListener(this);
-
-            if (!mBluetoothController.init())
-                finishDialogNoBluetooth();
-
-            if(!mBluetoothController.connectToFirstBoundedDevice())
-                Toast.makeText(getActivity(), "Couldn't find device", 1000);
+            mRotationController.addListener(this);
 
             return rootView;
         }
@@ -118,18 +114,18 @@ public class GyroModeActivity extends Activity {
         public void powerButtonClick(){
             //power.setText("POWER!");
 
+            Mode mode = Options.getInstance().mode;
             if (!isLestining){
-                mRotationController.regiseter();
-
-                Mode mode = Options.getInstance().mode;
 
                 switch(mode)
                 {
                     case Manual:
                         mBluetoothController.setManualMode();
+                        mRotationController.regiseter();
                         break;
                     case Protected:
                         mBluetoothController.setProtectedMode();
+                        mRotationController.regiseter();
                         break;
                     case FollowLine:
                         mBluetoothController.setFollowLineMode();
@@ -137,13 +133,17 @@ public class GyroModeActivity extends Activity {
                     default:
                         mBluetoothController.setIdleMode();
                 }
-
                 isLestining = true;
             }
             else{
-                mRotationController.unregister();
-
-                mBluetoothController.setIdleMode();
+                switch(mode)
+                {
+                    case Manual:
+                    case Protected:
+                        mRotationController.unregister();
+                        mBluetoothController.setIdleMode();
+                        break;
+                }
 
                 isLestining = false;
             }
