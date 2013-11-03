@@ -100,6 +100,14 @@ public class BatMobileActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_bluetooth:
+                Intent intent = new Intent(BatMobileActivity.this, BluetoothActivity.class);
+                startActivity(intent);
+                return true;
+        }
         MenuController menuController = new MenuController(mBluetoothController);
         menuController.HandleMenuItemClick(item);
 
