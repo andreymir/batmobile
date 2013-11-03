@@ -18,9 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.batmobile.arduino.BluetoothController;
+import com.example.batmobile.arduino.Mode;
+import com.example.batmobile.arduino.Options;
 import com.example.batmobile.arduino.ShieldBotManager;
 
 import java.util.List;
+
+import static com.example.batmobile.arduino.Mode.Manual;
 
 public class GyroModeActivity extends Activity {
 
@@ -116,7 +120,22 @@ public class GyroModeActivity extends Activity {
             if (!isLestining){
                 mRotationController.regiseter();
 
-                mBluetoothController.setManualMode();
+                Mode mode = Options.getInstance().mode;
+
+                switch(mode)
+                {
+                    case Manual:
+                        mBluetoothController.setManualMode();
+                        break;
+                    case Protected:
+                        mBluetoothController.setProtectedMode();
+                        break;
+                    case FollowLine:
+                        mBluetoothController.setFollowLineMode();
+                        break;
+                    default:
+                        mBluetoothController.setIdleMode();
+                }
 
                 isLestining = true;
             }
