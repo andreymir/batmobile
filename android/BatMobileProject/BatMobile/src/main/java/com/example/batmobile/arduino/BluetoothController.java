@@ -87,6 +87,19 @@ public class BluetoothController {
         mSerialService.connect(device);
     }
 
+    public void setProtectedMode()
+    {
+        char[] chars = {'\u0002', 'm', 's'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void setFollowLineMode()
+    {
+        char[] chars = {'\u0002', 'm', 'f'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
 
     public void setManualMode()
     {
@@ -101,7 +114,6 @@ public class BluetoothController {
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
         mSerialService.write(command);
     }
-
 
     public void sendMessage(byte[] message){
         mSerialService.write(message);

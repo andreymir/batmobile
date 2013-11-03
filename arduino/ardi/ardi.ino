@@ -16,6 +16,7 @@ void setup() {
   Serial.begin(9600);
 
   setupBluetooth();
+  //setupBot(Protected);
   //setupBot(Parktronic);
 
   //pinMode(LEFT_GREEN_LED, OUTPUT); 
@@ -29,6 +30,16 @@ void setup() {
 void setupBot(Mode m) {
   mode = m;
   protectedState = false;
+  
+  if (mode == FollowLine) {
+     shieldbot.setMaxSpeed(50,50);//255 is max, if one motor is faster than another, adjust values
+  }
+  else if (mode == Protected) {
+    shieldbot.setMaxSpeed(80,80);
+  }
+  else {
+     shieldbot.setMaxSpeed(128,128);
+  }
   
   if (m == Idle) {
     stop();
@@ -47,6 +58,10 @@ void loop() {
     processCommand(command);
     delete[] command;
   }
+  
+   if (mode == FollowLine) {
+   driveInLineFollowingMode(); 
+  }
 }
 
 void stop() {
@@ -62,6 +77,42 @@ void drive(char left, char right) {
       protectedState = false;
     }
   }
+  
+  if (mode == Protected) {
+    readLineSensors();
+    
+    if (!protectedState) {
+    
+    int x = 0;
+    
+    if (S1 == HIGH) x++;
+    if (S2 == HIGH) x++;
+    if (S3 == HIGH) x++;
+    if (S4 == HIGH) x++;
+    if (S5 == HIGH) x++;
+    }
+
+    if (
+      !((S3 == LOW && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW)) &&
+      !(S3 == HIGH && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH)
+     ) {
+     shieldbot.backward();
+     delay(200);
+     shieldbot.stop();
+     protectedState = true;
+   }
+  } 
+  else if (left <= 0 && right <= 0) {
+    protectedState = false;
+  }
+    
+    if (!protectedState) {
+       shieldbot.drive(left,right);
+    }
+    
+    return;
+  }
+  
   Serial.println("Drive shielbot");
   shieldbot.drive(left,right);
   //setLEDs(left, right);
@@ -85,8 +136,6 @@ void checkBorder() {
 }
 
 void driveInLineFollowingMode() {
-  shieldbot.setMaxSpeed(50,50);//255 is max, if one motor is faster than another, adjust values
-  
   readLineSensors();
   
   if(S1 == HIGH && S5 == HIGH){	//if the two outer IR line sensors see background, go forward
@@ -102,43 +151,6 @@ void driveInLineFollowingMode() {
     delay(100);
   }else	//otherwise just go forward
   shieldbot.forward();
-}
-
-void initProtectedMode() {
-  protectedState = false;
-}
-
-void driveInProtectedMode(byte left, byte right) {
-  readLineSensors();
-  
-  if (!protectedState) {
-    drive(left, right);
-    
-    if (
-      (S3 == HIGH && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW) ||
-      (S3 == LOW && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH) ||
-      (S1 == HIGH && S2 == LOW && S3 == LOW && S4 == LOW && S5 == HIGH) ||
-      (S1 == LOW && S2 == HIGH && S3 == HIGH && S4 == HIGH && S5 == LOW) ||
-      (S3 == HIGH && S4 == HIGH && S1 == LOW && S2 == LOW && S5 == LOW) ||
-      (S3 == LOW && S4 == LOW && S1 == HIGH && S2 == HIGH && S5 == HIGH) ||
-      (S3 == HIGH && S2 == HIGH && S1 == LOW && S4 == LOW && S5 == LOW) ||
-      (S3 == LOW && S2 == LOW && S1 == HIGH && S4 == HIGH && S5 == HIGH) ||
-      (S3 == HIGH && S2 == HIGH && S1 == LOW && S4 == HIGH && S5 == HIGH) ||
-      (S3 == HIGH && S2 == HIGH && S1 == HIGH && S4 == HIGH && S5 == LOW) ||
-      (S1 == LOW && S2 == LOW && S3 == LOW && S4 == HIGH && S5 == HIGH) ||
-      (S1 == HIGH && S2 == HIGH && S3 == HIGH && S4 == LOW && S5 == LOW) ||
-      (S3 == HIGH && ((S1 == LOW && S2 == LOW) || (S4 == LOW && S5 == LOW))) ||
-      (S3 == LOW && ((S1 == HIGH && S2 == HIGH) || (S4 == HIGH && S5 == HIGH)))
-     ) {
-     shieldbot.backward();
-     delay(50);
-     shieldbot.stop();
-     protectedState = true;
-   }
-  } 
-  else if (left <= 0 || right <= 0) {
-    protectedState = false;
-  }
 }
 
 void readLineSensors(){

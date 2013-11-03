@@ -2,5 +2,6 @@ typedef enum {
   Idle,
   Manual,
   FollowLine,
-  Parktronic
+  Parktronic,
+  Protected
 } Mode;
