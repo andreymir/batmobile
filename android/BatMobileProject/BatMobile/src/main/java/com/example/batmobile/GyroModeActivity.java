@@ -3,12 +3,7 @@ package com.example.batmobile;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 import com.example.batmobile.arduino.BluetoothController;
 import com.example.batmobile.arduino.ShieldBotManager;
 import com.example.batmobile.menu.MenuController;
-
-import java.util.List;
 
 public class GyroModeActivity extends Activity {
 
@@ -40,10 +33,7 @@ public class GyroModeActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment(mBluetoothController))
                     .commit();
         }
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,7 +49,7 @@ public class GyroModeActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         MenuController menuController = new MenuController(mBluetoothController);
-        menuController.HandleMenuItemClick(item);
+        menuController.HandleMenuItemClick(this, item);
 
         return super.onOptionsItemSelected(item);
     }
@@ -97,14 +87,11 @@ public class GyroModeActivity extends Activity {
 
             ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
 
+            mRotationController.addListener(this);
             mRotationController.addListener(manager);
-            //mRotationController.addListener(this);
 
             if (!mBluetoothController.init())
                 finishDialogNoBluetooth();
-
-            if(!mBluetoothController.connectToFirstBoundedDevice())
-                Toast.makeText(getActivity(), "Couldn't find device", 1000);
 
             return rootView;
         }

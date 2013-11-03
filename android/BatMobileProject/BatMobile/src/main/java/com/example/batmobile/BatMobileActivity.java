@@ -101,7 +101,7 @@ public class BatMobileActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         MenuController menuController = new MenuController(mBluetoothController);
-        menuController.HandleMenuItemClick(item);
+        menuController.HandleMenuItemClick(this, item);
 
         return super.onOptionsItemSelected(item);
     }
