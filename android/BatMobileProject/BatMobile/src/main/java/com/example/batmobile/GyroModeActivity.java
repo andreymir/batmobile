@@ -22,6 +22,8 @@ import com.example.batmobile.menu.MenuController;
 import java.util.List;
 import static com.example.batmobile.arduino.Mode.Manual;
 
+import static com.example.batmobile.arduino.Mode.Manual;
+
 public class GyroModeActivity extends Activity {
 
     private BluetoothController mBluetoothController;
