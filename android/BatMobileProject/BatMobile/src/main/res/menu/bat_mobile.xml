@@ -10,4 +10,10 @@
         android:title="Connect"
         android:orderInCategory="100"
         android:showAsAction="never" />
+
+    <item android:id="@+id/action_bluetooth"
+        android:title="@string/action_bluetooth"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
 </menu>

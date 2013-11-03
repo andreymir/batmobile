@@ -170,7 +170,7 @@ public class BluetoothActivity extends Activity {
     public void onParktronicModeButtonClick(View v) {
         Log.e(LOG_TAG, "+ onParktronicModeButtonClick +");
 
-        char[] chars = {'\u0002', 'm', 'p'};
+        char[] chars = {'\u0002', 'm', 's'};
         byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
         mSerialService.write(command);
     }
