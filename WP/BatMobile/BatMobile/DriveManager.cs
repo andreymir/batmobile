@@ -1,12 +1,9 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Windows;
 using Windows.Networking.Proximity;
-using Windows.Phone.Media.Capture;
-using Windows.System;
 using BluetoothConnectionManager;
 
 namespace BatMobile
@@ -14,6 +11,7 @@ namespace BatMobile
     public class DriveManager
     {
         private const byte maxSpeed = 126;
+        private const byte stopSpeed = 0;
         private const string command = "d";
         private readonly ConnectionManager _connectionManager = new ConnectionManager();
 
@@ -44,9 +42,9 @@ namespace BatMobile
                 var ca = nextPoit.DistanceTo(prevPoint);
 
                 var angel = Angle(ab, bc, ca);
-                var isRight = IsRight(prevPoint, currentPoint, nextPoit);
+                var isLeft = IsLeft(prevPoint, currentPoint, nextPoit);
 
-                Process(angel, isRight, delay);
+                Process(angel, isLeft, delay);
 
                 prevPoint = currentPoint;
                 currentPoint = nextPoit;
@@ -62,14 +60,16 @@ namespace BatMobile
         private static Tuple<Point, int> GetNextPoint(Queue<Point> queue, Point prevPoint)
         {
             var nextPoit = queue.Dequeue();
+            var i = 1;
             while (queue.Count > 0 && Math.Abs(prevPoint.X - nextPoit.X) < 10 && Math.Abs(prevPoint.Y - nextPoit.Y) < 10)
             {
                 nextPoit = queue.Dequeue();
+                i++;
             }
-            return nextPoit;
+            return new Tuple<Point, int>(nextPoit, i);
         }
 
-        private static bool IsRight(Point prevPoint, Point currentPoint, Point nextPoit)
+        private static bool IsLeft(Point prevPoint, Point currentPoint, Point nextPoit)
         {
             var a = currentPoint.Y - prevPoint.Y;
             var b = prevPoint.X - currentPoint.X;
@@ -83,58 +83,54 @@ namespace BatMobile
             return Math.Acos((ab * ab + bc * bc - ac * ac) / (2 * bc * ab)) * 180 / Math.PI;
         }
 
-        private void Process(double angel, bool isRight, int delay)
+        private void Process(double angel, bool isLeft, int delay)
         {
-            if (angel > 170) //forvard
+
+            _connectionManager.SendCommand(command, 180, 180);
+            Thread.Sleep(2000);
+            Stop();
+
+
+            if (angel >= 90) // slow
             {
-                _connectionManager.SendCommand(command, maxSpeed, maxSpeed);
-            }
-            else if (angel > 90) // 
-            {
-                if (!isRight)
+                if (isLeft)
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, 30);
+                    _connectionManager.SendCommand(command, (byte) GetSpeed(angel), maxSpeed);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, 30, maxSpeed);
+                    _connectionManager.SendCommand(command, maxSpeed, (byte) GetSpeed(angel));
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(100 * delay);
             }
             else if (angel > 0) // fast
             {
-                if (!isRight)
+                if (isLeft)
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, 250);
+                    _connectionManager.SendCommand(command, (byte) GetSpeed(angel), maxSpeed);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, 250, maxSpeed);
+                    _connectionManager.SendCommand(command, maxSpeed, (byte) GetSpeed(angel));
                 }
-
-                Thread.Sleep(100);
+                Thread.Sleep(400 * delay);
             }
+        }
 
-            Thread.Sleep(10 * delay);
-            //else // back
-            //{
-            //    _connectionManager.SendCommand(command, 140, 140);
-            //}
+        private static int GetSpeed(double angel)
+        {
+            return (int) (maxSpeed*(angel - 90)/90);
         }
 
         private void Start()
         {
-            const byte left = 100;
-            const byte right = 100;
-            _connectionManager.SendCommand(command, left, right);
+            _connectionManager.SendCommand(command, maxSpeed, maxSpeed);
         }
 
         private void Stop()
         {
-            const byte left = 0;
-            const byte right = 0;
-            _connectionManager.SendCommand(command, left, right);
+            _connectionManager.SendCommand(command, stopSpeed, stopSpeed);
         }
 
         private async void AppToDevice()
@@ -158,7 +154,6 @@ namespace BatMobile
             {
                 Debug.WriteLine(e.ToString());
             }
-            
         }
 
         public void Terminate()
