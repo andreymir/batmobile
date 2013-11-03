@@ -12,6 +12,7 @@ import com.example.batmobile.BluetoothSerialService;
 
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.util.Iterator;
 
 /**
  * Created by IZubkov on 11/2/13.
@@ -82,9 +83,19 @@ public class BluetoothController {
         return mConnectedDeviceName != null;
     }
 
-    public void connectToFirstBoundedDevice(){
-        BluetoothDevice device =  mBluetoothAdapter.getBondedDevices().iterator().next();
+    public boolean connectToFirstBoundedDevice(){
+        Iterator<BluetoothDevice> iterator = mBluetoothAdapter.getBondedDevices().iterator();
+        BluetoothDevice device = null;
+        if (iterator.hasNext())
+            device =  mBluetoothAdapter.getBondedDevices().iterator().next();
+
+        //todo: add null handling
+
+        if (device == null)
+            return false;
+
         mSerialService.connect(device);
+        return true;
     }
 
     public void setProtectedMode()
@@ -173,4 +184,7 @@ public class BluetoothController {
         }
     };
 
+    public void disconnect() {
+        mSerialService.stop();
+    }
 }

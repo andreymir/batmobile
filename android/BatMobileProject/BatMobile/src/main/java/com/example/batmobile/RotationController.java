@@ -7,6 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,7 +19,9 @@ public class RotationController implements SensorEventListener {
     private final Sensor mAccelerometerSensor;
     private final Sensor mMagneticSensor;
     private final Activity mActivity;
-    private IRotaionListener mRotaionListener;
+
+    private final List<IRotaionListener> mListeners = new ArrayList<IRotaionListener>();
+
     private float[] rMatrix;
 
     public static final float MAX_PITCH_VALUE = 0;
@@ -74,12 +78,19 @@ public class RotationController implements SensorEventListener {
 
             SensorManager.getRotationMatrix(rMatrix, null, gravityMatrix, geomagneticMatrix);// Retrieve RMatrix, necessary for the getOrientation method
             SensorManager.getOrientation(rMatrix, orientation);// Get the current orientation of the device
-            mRotaionListener.RotationChanged((float)Math.toDegrees(orientation[0]), (float)Math.toDegrees(orientation[1]), (float)Math.toDegrees(orientation[2]));
+            //mRotaionListener.RotationChanged((float)Math.toDegrees(orientation[0]), (float)Math.toDegrees(orientation[1]), (float)Math.toDegrees(orientation[2]));
+            rotationChanged((float)Math.toDegrees(orientation[0]), (float)Math.toDegrees(orientation[1]), (float)Math.toDegrees(orientation[2]));
         }
     }
 
     public void addListener(IRotaionListener listener){
-        mRotaionListener = listener;
+        mListeners.add(listener);
+    }
+
+    private void rotationChanged(float x, float y, float z){
+        for(Iterator<IRotaionListener> i = mListeners.iterator(); i.hasNext(); ) {
+            i.next().RotationChanged(x, y, z);
+        }
     }
 
     @Override

@@ -16,11 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.batmobile.arduino.BluetoothController;
 import com.example.batmobile.arduino.Mode;
 import com.example.batmobile.arduino.Options;
 import com.example.batmobile.arduino.ShieldBotManager;
+import com.example.batmobile.menu.MenuController;
 
 import java.util.List;
 
@@ -28,16 +30,22 @@ import static com.example.batmobile.arduino.Mode.Manual;
 
 public class GyroModeActivity extends Activity {
 
+    private BluetoothController mBluetoothController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gyro_activity_main);
 
+        mBluetoothController = new BluetoothController(this);
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PlaceholderFragment(mBluetoothController))
                     .commit();
         }
+
+
     }
 
 
@@ -45,7 +53,7 @@ public class GyroModeActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.gyro_mode, menu);
+        getMenuInflater().inflate(R.menu.bat_mobile, menu);
         return true;
     }
 
@@ -54,10 +62,9 @@ public class GyroModeActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-        }
+        MenuController menuController = new MenuController(mBluetoothController);
+        menuController.HandleMenuItemClick(item);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -70,11 +77,13 @@ public class GyroModeActivity extends Activity {
         private TextView power;
         private boolean isLestining = false;
 
-        private RotationController mRotationController;
         private BluetoothController mBluetoothController;
 
-        public PlaceholderFragment() {
+        private RotationController mRotationController;
 
+
+        public PlaceholderFragment(BluetoothController bluetoothController) {
+            mBluetoothController = bluetoothController;
         }
 
         @Override
@@ -90,8 +99,6 @@ public class GyroModeActivity extends Activity {
 
             mRotationController = new RotationController(getActivity());
 
-            mBluetoothController = new BluetoothController(getActivity());
-
             ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
 
             mRotationController.addListener(manager);
@@ -100,7 +107,8 @@ public class GyroModeActivity extends Activity {
             if (!mBluetoothController.init())
                 finishDialogNoBluetooth();
 
-            mBluetoothController.connectToFirstBoundedDevice();
+            if(!mBluetoothController.connectToFirstBoundedDevice())
+                Toast.makeText(getActivity(), "Couldn't find device", 1000);
 
             return rootView;
         }
