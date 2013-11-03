@@ -13,8 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.batmobile.arduino.BluetoothController;
+import com.example.batmobile.menu.MenuController;
 
 public class BatMobileActivity extends Activity {
+
+    private BluetoothController mBluetoothController;
 
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -68,6 +74,11 @@ public class BatMobileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batmobile);
 
+        mBluetoothController = new BluetoothController(this);
+
+        if(!mBluetoothController.init())
+            Toast.makeText(this, "Couldn't initialize bluetooth", 1000);
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -97,6 +108,9 @@ public class BatMobileActivity extends Activity {
                 startActivity(intent);
                 return true;
         }
+        MenuController menuController = new MenuController(mBluetoothController);
+        menuController.HandleMenuItemClick(item);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -112,6 +126,7 @@ public class BatMobileActivity extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_batmobile, container, false);
+
             return rootView;
         }
     }

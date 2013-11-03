@@ -27,34 +27,32 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manual mode"
-            android:id="@+id/checkBoxMM"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="24dp" />
+        <RadioGroup
+            android:layout_width="500"
+            android:layout_height="300">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manual protected mode"
-            android:id="@+id/checkBoxMPM"
-            android:layout_marginLeft="30dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Line Following mode"
-            android:id="@+id/checkBoxLFM"
-            android:layout_marginLeft="30dp" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manual"
+                android:id="@+id/radioButtonManual"
+                android:layout_gravity="center_horizontal" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Free ride mode"
-            android:id="@+id/checkBoxFRM"
-            android:layout_marginLeft="30dp" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protected"
+                android:id="@+id/radioButtonProtected"
+                android:layout_gravity="center_horizontal" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Follow Line"
+                android:id="@+id/radioButtonFollowLine"
+                android:layout_gravity="center_horizontal" />
+        </RadioGroup>
 
         <Button
             android:layout_width="170dp"
@@ -64,7 +62,8 @@
             android:layout_gravity="right"
             android:layout_marginRight="25dp"
             android:background="#ffcc20"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="saveButtonClick"/>
 
         <Button
             android:layout_width="170dp"
@@ -74,7 +73,10 @@
             android:layout_gravity="right"
             android:layout_marginRight="25dp"
             android:background="#b5b7b4"
-            android:layout_marginTop="7dp" />
+            android:layout_marginTop="7dp"
+            android:onClick="cancelButtonClick"/>
+
+
     </LinearLayout>
 
 </FrameLayout>
