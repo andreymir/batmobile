@@ -67,6 +67,8 @@ void march()
     beep(speakerPin, cH, 150);
     beep(speakerPin, a, 1000);
     
+    /*
+    
     beep(speakerPin, aH, 500);
     beep(speakerPin, a, 350); 
     beep(speakerPin, a, 150);
@@ -125,5 +127,6 @@ void march()
     beep(speakerPin, a, 500);            
     beep(speakerPin, f, 375);            
     beep(speakerPin, c, 125);            
-    beep(speakerPin, a, 1000);    
+    beep(speakerPin, a, 1000);
+  */  
 }

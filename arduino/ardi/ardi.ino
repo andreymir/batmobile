@@ -82,18 +82,9 @@ void drive(char left, char right) {
     readLineSensors();
     
     if (!protectedState) {
-    
-    int x = 0;
-    
-    if (S1 == HIGH) x++;
-    if (S2 == HIGH) x++;
-    if (S3 == HIGH) x++;
-    if (S4 == HIGH) x++;
-    if (S5 == HIGH) x++;
-    }
-
+   
     if (
-      !((S3 == LOW && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW)) &&
+      !(S3 == LOW && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW) &&
       !(S3 == HIGH && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH)
      ) {
      shieldbot.backward();
