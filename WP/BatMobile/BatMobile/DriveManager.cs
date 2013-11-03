@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -85,36 +85,48 @@ namespace BatMobile
 
         private void Process(double angel, bool isLeft, int delay)
         {
-
-            _connectionManager.SendCommand(command, 180, 180);
-            Thread.Sleep(2000);
-            Stop();
-
-
-            if (angel >= 90) // slow
+            if (angel > 175) // forward
+            {
+                _connectionManager.SendCommand(command, maxSpeed, maxSpeed);
+                Thread.Sleep(100 * delay);
+            }
+            else if (angel > 150) // forward
             {
                 if (isLeft)
                 {
-                    _connectionManager.SendCommand(command, (byte) GetSpeed(angel), maxSpeed);
+                    _connectionManager.SendCommand(command, (byte)GetSpeed(angel), maxSpeed);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, (byte) GetSpeed(angel));
+                    _connectionManager.SendCommand(command, maxSpeed, (byte)GetSpeed(angel));
                 }
 
                 Thread.Sleep(100 * delay);
+            }
+            else if (angel >= 90) // slow
+            {
+                if (isLeft)
+                {
+                    _connectionManager.SendCommand(command, (byte)(GetSpeed(angel) * 0.3), maxSpeed);
+                }
+                else
+                {
+                    _connectionManager.SendCommand(command, maxSpeed, (byte)(GetSpeed(angel) * 0.3));
+                }
+
+                Thread.Sleep(300);
             }
             else if (angel > 0) // fast
             {
                 if (isLeft)
                 {
-                    _connectionManager.SendCommand(command, (byte) GetSpeed(angel), maxSpeed);
+                    _connectionManager.SendCommand(command, (byte)GetSpeed(angel), maxSpeed);
                 }
                 else
                 {
-                    _connectionManager.SendCommand(command, maxSpeed, (byte) GetSpeed(angel));
+                    _connectionManager.SendCommand(command, maxSpeed, (byte)GetSpeed(angel));
                 }
-                Thread.Sleep(400 * delay);
+                Thread.Sleep(900);
             }
         }
 
@@ -125,12 +137,14 @@ namespace BatMobile
 
         private void Start()
         {
+            _connectionManager.SendCommand("mm");
             _connectionManager.SendCommand(command, maxSpeed, maxSpeed);
         }
 
         private void Stop()
         {
             _connectionManager.SendCommand(command, stopSpeed, stopSpeed);
+            _connectionManager.SendCommand("mi");
         }
 
         private async void AppToDevice()
