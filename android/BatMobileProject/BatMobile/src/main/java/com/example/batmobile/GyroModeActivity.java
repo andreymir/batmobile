@@ -19,13 +19,9 @@ import com.example.batmobile.arduino.Options;
 import com.example.batmobile.arduino.ShieldBotManager;
 import com.example.batmobile.menu.MenuController;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
-
 import static com.example.batmobile.arduino.Mode.Manual;
 
->>>>>>> d5d5ccb47ba0e413c4bb14f655f68ab2517eccd1
 public class GyroModeActivity extends Activity {
 
     private BluetoothController mBluetoothController;
@@ -42,7 +38,10 @@ public class GyroModeActivity extends Activity {
                     .add(R.id.container, new PlaceholderFragment(mBluetoothController))
                     .commit();
         }
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,11 +95,14 @@ public class GyroModeActivity extends Activity {
 
             ShieldBotManager manager = new ShieldBotManager(mBluetoothController);
 
-            mRotationController.addListener(this);
             mRotationController.addListener(manager);
+            //mRotationController.addListener(this);
 
             if (!mBluetoothController.init())
                 finishDialogNoBluetooth();
+
+            if(!mBluetoothController.connectToFirstBoundedDevice())
+                Toast.makeText(getActivity(), "Couldn't find device", 1000);
 
             return rootView;
         }
