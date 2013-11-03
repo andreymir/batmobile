@@ -8,7 +8,8 @@
 
 Shieldbot shieldbot = Shieldbot();
 int S1,S2,S3,S4,S5;	//values to store state of sensors
-double distance;
+double distance = 15;
+double critical_distance = 10;
 Mode mode;
 boolean protectedState;
 
@@ -32,9 +33,6 @@ void setupBot(Mode m) {
   
   if (mode == FollowLine) {
      shieldbot.setMaxSpeed(50,50);//255 is max, if one motor is faster than another, adjust values
-  }
-  else if (mode == Protected) {
-    shieldbot.setMaxSpeed(80,80);
   }
   else {
      shieldbot.setMaxSpeed(128,128);
@@ -82,8 +80,9 @@ void drive(char left, char right) {
     if (!protectedState) {
    
     if (
-      !(S3 == LOW && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW) &&
-      !(S3 == HIGH && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH)
+      (!(S3 == LOW && S1 == LOW && S2 == LOW && S4 == LOW && S5 == LOW) &&
+      !(S3 == HIGH && S1 == HIGH && S2 == HIGH && S4 == HIGH && S5 == HIGH)) ||
+      (distance < critical_distance)
      ) {
      shieldbot.backward();
      delay(200);
