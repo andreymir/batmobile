@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.example.batmobile.BluetoothSerialService;
 
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
 /**
  * Created by IZubkov on 11/2/13.
  */
@@ -83,6 +86,22 @@ public class BluetoothController {
         BluetoothDevice device =  mBluetoothAdapter.getBondedDevices().iterator().next();
         mSerialService.connect(device);
     }
+
+
+    public void setManualMode()
+    {
+        char[] chars = {'\u0002', 'm', 'm'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
+    public void setIdleMode()
+    {
+        char[] chars = {'\u0002', 'm', 'i'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
 
     public void sendMessage(byte[] message){
         mSerialService.write(message);

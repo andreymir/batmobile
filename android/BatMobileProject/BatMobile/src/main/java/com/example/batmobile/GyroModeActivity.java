@@ -115,10 +115,16 @@ public class GyroModeActivity extends Activity {
 
             if (!isLestining){
                 mRotationController.regiseter();
+
+                mBluetoothController.setManualMode();
+
                 isLestining = true;
             }
             else{
                 mRotationController.unregister();
+
+                mBluetoothController.setIdleMode();
+
                 isLestining = false;
             }
         }
