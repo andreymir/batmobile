@@ -39,7 +39,7 @@ void callDrive(char left, char right) {
   Serial.print(", ");
   Serial.println((int)right);
   
-  if (mode != Manual && mode != Protected && mode != Parktronic && left != 0 && right != 0) {
+  if (mode != Manual && mode != Protected && left != 0 && right != 0) {
     return;
   }
   
@@ -63,7 +63,5 @@ void callChangeMode(char m) {
     case 's':
       setupBot(Protected);
       break;
-    case 'p':
-      setupBot(Parktronic);
   }
 }
