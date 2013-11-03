@@ -92,6 +92,10 @@ public class BatMobileActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
+            case R.id.action_bluetooth:
+                Intent intent = new Intent(BatMobileActivity.this, BluetoothActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
