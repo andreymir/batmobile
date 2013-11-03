@@ -16,8 +16,7 @@ void setup() {
   Serial.begin(9600);
 
   setupBluetooth();
-  //setupBot(Protected);
-  //setupBot(Parktronic);
+  setupBot(Idle);
 
   //pinMode(LEFT_GREEN_LED, OUTPUT); 
   //pinMode(RIGHT_GREEN_LED, OUTPUT); 
@@ -79,7 +78,6 @@ void drive(char left, char right) {
   }
   
   if (mode == Protected) {
-    readLineSensors();
     
     if (!protectedState) {
    
@@ -127,7 +125,6 @@ void checkBorder() {
 }
 
 void driveInLineFollowingMode() {
-  readLineSensors();
   
   if(S1 == HIGH && S5 == HIGH){	//if the two outer IR line sensors see background, go forward
     shieldbot.forward(); 
@@ -142,15 +139,6 @@ void driveInLineFollowingMode() {
     delay(100);
   }else	//otherwise just go forward
   shieldbot.forward();
-}
-
-void readLineSensors(){
-   //Read all the sensors 
-  S1 = shieldbot.readS1();
-  S2 = shieldbot.readS2();
-  S3 = shieldbot.readS3();
-  S4 = shieldbot.readS4();
-  S5 = shieldbot.readS5(); 
 }
 
 void setLEDs(byte left, byte right) {
