@@ -126,6 +126,13 @@ public class BluetoothController {
         mSerialService.write(command);
     }
 
+    public void playBeep()
+    {
+        char[] chars = {'\u0001', 'b'};
+        byte[] command = Charset.forName("ISO-8859-1").encode(CharBuffer.wrap(chars)).array();
+        mSerialService.write(command);
+    }
+
     public void sendMessage(byte[] message){
         mSerialService.write(message);
     }
