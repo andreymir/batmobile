@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -77,7 +78,7 @@ public class BatMobileActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.bat_mobile, menu);
         return true;
@@ -105,10 +106,19 @@ public class BatMobileActivity extends Activity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_batmobile, container, false);
             return rootView;
         }
     }
 
+    public void OnGyroModeButtonClick(View v){
+        Intent intent = new Intent(BatMobileActivity.this, GyroModeActivity.class);
+        startActivity(intent);
+    }
+
+    public void OnOptionsButtonClick(View v){
+        Intent intent = new Intent(BatMobileActivity.this, OptionsActivity.class);
+        startActivity(intent);
+    }
 }
