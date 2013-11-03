@@ -109,7 +109,7 @@ public class BatMobileActivity extends Activity {
                 return true;
         }
         MenuController menuController = new MenuController(mBluetoothController);
-        menuController.HandleMenuItemClick(item);
+        menuController.HandleMenuItemClick(this, item);
 
         return super.onOptionsItemSelected(item);
     }

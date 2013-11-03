@@ -19,13 +19,12 @@ void setup() {
 
   setupBluetooth();
   setupBot(Idle);
+  setupBip();
 
   //pinMode(LEFT_GREEN_LED, OUTPUT); 
   //pinMode(RIGHT_GREEN_LED, OUTPUT); 
   //pinMode(RIGHT_RED_LED, OUTPUT); 
-  //pinMode(LEFT_RED_LED, OUTPUT); 
-
-  //setupBip();
+  //pinMode(LEFT_RED_LED, OUTPUT);
 }
 
 void setupBot(Mode m) {

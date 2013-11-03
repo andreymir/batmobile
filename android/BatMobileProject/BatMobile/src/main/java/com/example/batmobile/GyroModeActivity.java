@@ -3,12 +3,7 @@ package com.example.batmobile;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +20,7 @@ import com.example.batmobile.arduino.ShieldBotManager;
 import com.example.batmobile.menu.MenuController;
 
 import java.util.List;
+import static com.example.batmobile.arduino.Mode.Manual;
 
 import static com.example.batmobile.arduino.Mode.Manual;
 
@@ -63,7 +59,7 @@ public class GyroModeActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         MenuController menuController = new MenuController(mBluetoothController);
-        menuController.HandleMenuItemClick(item);
+        menuController.HandleMenuItemClick(this, item);
 
         return super.onOptionsItemSelected(item);
     }
