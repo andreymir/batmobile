@@ -28,8 +28,9 @@
         android:layout_marginTop="50dp">
 
         <RadioGroup
-            android:layout_width="500"
-            android:layout_height="300">
+            android:id="@+id/rg"
+            android:layout_width="500dp"
+            android:layout_height="300dp">
 
 
             <RadioButton

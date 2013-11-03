@@ -10,13 +10,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.example.batmobile.arduino.Mode;
+import com.example.batmobile.arduino.Options;
 
 public class OptionsActivity extends Activity {
+
+    RadioButton manualRadioButton;
+    RadioButton protectedRadioButton;
+    RadioButton followLineRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_main);
+
+        manualRadioButton = (RadioButton)findViewById(R.id.manualModeButton);
+        protectedRadioButton = (RadioButton)findViewById(R.id.radioButtonProtected);
+        followLineRadioButton = (RadioButton)findViewById(R.id.radioButtonFollowLine);
+        RadioGroup rg = (RadioGroup)findViewById(R.id.rg);
+
+        Mode mode = Options.getInstance().mode;
+
+        switch(mode)
+        {
+            case Manual:
+                rg.check(manualRadioButton.getId());
+                break;
+            case Protected:
+                rg.check(protectedRadioButton.getId());
+                break;
+            case FollowLine:
+                rg.check(followLineRadioButton.getId());
+                break;
+        }
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -62,4 +92,31 @@ public class OptionsActivity extends Activity {
         }
     }
 
+
+
+    public void saveButtonClick(View v){
+
+        RadioGroup rg = (RadioGroup)findViewById(R.id.rg);
+        int rbid = rg.getCheckedRadioButtonId();
+
+        switch(rbid)
+        {
+            case R.id.manualModeButton:
+                Options.getInstance().mode = Mode.Manual;
+                break;
+            case R.id.radioButtonProtected:
+                Options.getInstance().mode = Mode.Protected;
+                break;
+            case R.id.followLineModeButton:
+                Options.getInstance().mode = Mode.FollowLine;
+                break;
+        }
+
+        finish();
+    }
+
+
+    public void cancelButtonClick(View v){
+        finish();
+    }
 }
