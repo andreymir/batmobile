@@ -7,34 +7,37 @@
     tools:ignore="MergeRootFrame" >
 
     <ImageView
-        android:layout_width="154dp"
-        android:layout_height="151dp"
+        android:layout_width="588dp"
+        android:layout_height="497dp"
         android:id="@+id/imageView"
         android:layout_gravity="center"
-        android:background="@drawable/ic_launcher"
-        android:layout_marginTop="-1dp" />
+        android:background="@drawable/ardi_comic"
+        android:layout_marginTop="-5dp"
+        android:layout_marginLeft="19dp" />
 
     <ImageButton
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:id="@+id/imageButton3"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="36dp"
         android:src="@drawable/gear"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:onClick="OnOptionsButtonClick"/>
+        android:onClick="OnOptionsButtonClick"
+        android:layout_marginTop="20dp" />
 
     <ImageButton
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:id="@+id/imageButton"
         android:layout_gravity="left|center_vertical"
         android:src="@drawable/steering_wheel"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:background="@android:color/transparent"
-        android:layout_marginLeft="108dp"
-        android:onClick="OnGyroModeButtonClick"/>
+        android:layout_marginLeft="65dp"
+        android:onClick="OnGyroModeButtonClick"
+        android:layout_marginTop="20dp" />
 
 </FrameLayout>
